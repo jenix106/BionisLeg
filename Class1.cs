@@ -22,8 +22,14 @@ namespace BionisLeg
                 transform.gameObject.AddComponent<WaterComponent>();
             }
             EventManager.onUnpossess += EventManager_onUnpossess;
-            EventManager.OnPlayerSpawned += EventManager_OnPlayerSpawned;
+            EventManager.onPossess += EventManager_onPossess;
             return base.OnLoadCoroutine();
+        }
+
+        private void EventManager_onPossess(Creature creature, EventTime eventTime)
+        {
+            if(eventTime == EventTime.OnEnd)
+            Player.local.head.cam.farClipPlane *= 5;
         }
 
         private void EventManager_OnPlayerSpawned()
@@ -40,7 +46,7 @@ namespace BionisLeg
         {
             base.OnUnload();
             EventManager.onUnpossess -= EventManager_onUnpossess;
-            EventManager.OnPlayerSpawned -= EventManager_OnPlayerSpawned;
+            EventManager.onPossess -= EventManager_onPossess;
         }
     }
     public class ClimbableComponent : MonoBehaviour
